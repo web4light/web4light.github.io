@@ -5,7 +5,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>WEB4LIGHT — AsgardLab</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
   <style>
+    @font-face {
+      font-family: 'Tempting';
+      src: url('tempting.ttf') format('truetype')
+    }
+
     * {
       margin: 0;
       padding: 0;
@@ -16,10 +22,10 @@
     body {
       width: 100%;
       height: 100%;
+      overflow: hidden;
       background: #000;
       color: #fff;
-      font-family: 'Georgia', serif;
-      overflow: hidden
+      font-family: 'Georgia', serif
     }
 
     #herovid {
@@ -28,317 +34,155 @@
       z-index: 0;
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: cover
     }
 
-    /* Strong overlay at top for text readability */
     .overlay {
       position: fixed;
       inset: 0;
       z-index: 1;
       pointer-events: none;
-      background:
-        linear-gradient(to bottom,
-          rgba(0, 0, 0, .75) 0%,
-          rgba(0, 0, 0, .4) 25%,
-          rgba(0, 0, 0, 0) 50%,
-          rgba(0, 0, 0, 0) 75%,
-          rgba(0, 0, 0, .5) 100%);
+      background: linear-gradient(to bottom, rgba(0, 0, 0, .7) 0%, rgba(0, 0, 0, .1) 12%, rgba(0, 0, 0, 0) 35%, rgba(0, 0, 0, 0) 65%, rgba(0, 0, 0, .3) 88%, rgba(0, 0, 0, .7) 100%)
     }
 
-    #stars {
+    .top-text {
       position: fixed;
-      inset: 0;
-      z-index: 2;
-      pointer-events: none
-    }
-
-    .scan {
-      position: fixed;
-      top: 0;
+      top: 2.5vh;
       left: 0;
-      width: 100%;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, rgba(255, 200, 0, .15), transparent);
-      animation: sc 14s linear infinite;
-      z-index: 3;
-      pointer-events: none
-    }
-
-    @keyframes sc {
-      0% {
-        top: 0
-      }
-
-      100% {
-        top: 100vh
-      }
-    }
-
-    .ui {
-      position: fixed;
-      inset: 0;
-      z-index: 4;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      padding-top: 3vh;
+      right: 0;
+      z-index: 2;
       text-align: center;
-      padding-left: 1rem;
-      padding-right: 1rem;
       pointer-events: none;
+      padding: 0 1rem
     }
 
-    .ui a {
-      pointer-events: all
+    .t1 {
+      font-size: clamp(1.2rem, 3.2vw, 2.5rem);
+      font-weight: 700;
+      color: #C0C8D4;
+      font-family: 'Tempting', 'Great Vibes', serif;
+      text-shadow: 0 0 15px rgba(192, 200, 212, .3)
     }
 
-    /* Text outline helper — readable on any background */
-    .outline {
-      -webkit-text-stroke: .8px rgba(0, 0, 0, .9);
-      text-shadow:
-        1px 1px 0 rgba(0, 0, 0, .9),
-        -1px 1px 0 rgba(0, 0, 0, .9),
-        1px -1px 0 rgba(0, 0, 0, .9),
-        -1px -1px 0 rgba(0, 0, 0, .9),
-        0 0 20px rgba(255, 200, 0, .6),
-        0 0 50px rgba(255, 150, 0, .3);
-    }
-
-    .main-title {
-      font-size: clamp(1rem, 3vw, 2.4rem);
-      font-weight: bold;
-      font-family: 'Georgia', serif;
-      color: #FFD700;
+    .t3 {
+      font-size: clamp(.48rem, .95vw, .75rem);
+      color: #8BA4C8;
       letter-spacing: 4px;
-      font-style: italic;
-      margin-bottom: .4rem;
-      -webkit-text-stroke: .5px rgba(0, 0, 0, .95);
-      text-shadow:
-        1px 1px 0 rgba(0, 0, 0, .95),
-        -1px 1px 0 rgba(0, 0, 0, .95),
-        1px -1px 0 rgba(0, 0, 0, .95),
-        -1px -1px 0 rgba(0, 0, 0, .95),
-        0 0 30px rgba(255, 215, 0, .7),
-        0 0 70px rgba(255, 150, 0, .3);
-      animation: titlebr 5s ease-in-out infinite;
-    }
-
-    @keyframes titlebr {
-
-      0%,
-      100% {
-        text-shadow: 1px 1px 0 rgba(0, 0, 0, .95), -1px 1px 0 rgba(0, 0, 0, .95), 1px -1px 0 rgba(0, 0, 0, .95), -1px -1px 0 rgba(0, 0, 0, .95), 0 0 30px rgba(255, 215, 0, .6)
-      }
-
-      50% {
-        text-shadow: 1px 1px 0 rgba(0, 0, 0, .95), -1px 1px 0 rgba(0, 0, 0, .95), 1px -1px 0 rgba(0, 0, 0, .95), -1px -1px 0 rgba(0, 0, 0, .95), 0 0 50px rgba(255, 215, 0, 1), 0 0 100px rgba(255, 150, 0, .5)
-      }
-    }
-
-    .sub-title {
-      font-size: clamp(.85rem, 1.8vw, 1.4rem);
-      color: rgba(255, 240, 180, .85);
-      letter-spacing: 5px;
       text-transform: uppercase;
       font-family: 'Helvetica Neue', sans-serif;
-      margin-bottom: 2.5rem;
-      -webkit-text-stroke: .3px rgba(0, 0, 0, .8);
-      text-shadow: 1px 1px 2px rgba(0, 0, 0, .95), -1px -1px 2px rgba(0, 0, 0, .95);
+      margin-top: .4rem;
+      text-shadow: 0 0 10px rgba(139, 164, 200, .3)
     }
 
-    .motto {
-      font-size: clamp(1rem, 2.4vw, 1.9rem);
-      color: #FFD700;
+    .mid-text {
+      position: fixed;
+      bottom: 4.5rem;
+      left: 0;
+      right: 0;
+      z-index: 2;
+      text-align: center;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center
+    }
+
+    .t4 {
+      font-size: clamp(.65rem, 1.4vw, 1.1rem);
+      color: #A0B8D8;
       letter-spacing: 2px;
       font-style: italic;
-      margin-bottom: .3rem;
-      -webkit-text-stroke: .4px rgba(0, 0, 0, .9);
-      text-shadow: 1px 1px 0 rgba(0, 0, 0, .95), -1px 1px 0 rgba(0, 0, 0, .95), 1px -1px 0 rgba(0, 0, 0, .95), -1px -1px 0 rgba(0, 0, 0, .95), 0 0 15px rgba(255, 215, 0, .5);
+      margin-top: .35rem;
+      text-shadow: 0 0 12px rgba(160, 184, 216, .4)
     }
 
-    .ms {
-      font-size: clamp(.48rem, .85vw, .68rem);
-      color: rgba(255, 235, 160, .75);
+    .t5 {
+      font-size: clamp(.38rem, .7vw, .55rem);
+      color: rgba(139, 164, 200, .7);
       letter-spacing: 3px;
       text-transform: uppercase;
       font-family: 'Helvetica Neue', sans-serif;
-      margin-bottom: 2rem;
-      text-shadow: 1px 1px 3px rgba(0, 0, 0, .99), -1px -1px 3px rgba(0, 0, 0, .99);
+      margin-top: .12rem
     }
 
-    /* PORTALS — fixed bottom */
-    .portals {
+    .bottom-nav {
       position: fixed;
-      bottom: 4.5rem;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: .75rem;
-      flex-wrap: nowrap;
-      justify-content: center;
-      z-index: 5;
-      pointer-events: all;
+      bottom: 1.6rem;
+      left: 0;
+      right: 0;
+      z-index: 2;
+      text-align: center
     }
 
-    .portal {
-      width: 105px;
-      height: 105px;
-      border: 1px solid rgba(255, 215, 0, .4);
-      background: transparent;
-      backdrop-filter: blur(4px);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+    .bottom-nav a {
+      color: #A0B8D8;
       text-decoration: none;
-      color: #fff;
-      transition: all .3s;
-    }
-
-    .portal:hover {
-      border-color: #FFD700;
-      background: rgba(255, 200, 0, .06);
-      box-shadow: 0 0 20px rgba(255, 200, 0, .25), inset 0 0 20px rgba(255, 200, 0, .04);
-      transform: translateY(-3px);
-    }
-
-    .pg {
-      font-size: 1.7rem;
-      margin-bottom: .28rem;
-      filter: drop-shadow(0 0 4px rgba(0, 0, 0, .9))
-    }
-
-    .pl {
-      font-size: .52rem;
-      color: #FFD700;
-      letter-spacing: 2px;
+      font-size: clamp(.45rem, .85vw, .7rem);
+      letter-spacing: 3px;
       text-transform: uppercase;
-      margin-bottom: .1rem;
-      text-shadow: 1px 1px 2px rgba(0, 0, 0, .99), -1px -1px 2px rgba(0, 0, 0, .99);
+      font-family: 'Helvetica Neue', sans-serif;
+      margin: 0 .5rem;
+      transition: color .3s;
+      display: inline-block
     }
 
-    .pn {
-      font-size: .66rem;
-      color: rgba(255, 235, 160, .7);
-      font-family: 'Helvetica Neue', sans-serif;
-      text-shadow: 1px 1px 2px rgba(0, 0, 0, .99), -1px -1px 2px rgba(0, 0, 0, .99);
+    .bottom-nav a:hover {
+      color: #D0E0F5;
+      text-shadow: 0 0 12px rgba(180, 210, 240, .5)
+    }
+
+    .bottom-nav .sub {
+      display: block;
+      font-size: clamp(.28rem, .55vw, .42rem);
+      color: rgba(139, 164, 200, .45);
+      letter-spacing: 2px;
+      margin-top: .06rem
     }
 
     .lex {
       position: fixed;
-      bottom: .6rem;
-      left: 50%;
-      transform: translateX(-50%);
-      white-space: nowrap;
-      font-size: .5rem;
-      color: rgba(255, 220, 120, .45);
-      letter-spacing: 3px;
+      bottom: .2rem;
+      left: 0;
+      right: 0;
+      z-index: 2;
+      text-align: center;
+      font-size: clamp(.26rem, .48vw, .38rem);
+      color: rgba(160, 190, 220, .2);
+      letter-spacing: 2px;
       text-transform: uppercase;
-      font-family: 'Helvetica Neue', sans-serif;
-      line-height: 1.8;
-      text-shadow: 1px 1px 3px rgba(0, 0, 0, .99), -1px -1px 3px rgba(0, 0, 0, .99);
-      z-index: 5;
+      font-family: 'Helvetica Neue', sans-serif
     }
 
     .lex span {
-      color: rgba(255, 215, 0, .8)
+      color: rgba(160, 190, 220, .4)
     }
   </style>
 </head>
 
 <body>
-
   <video id="herovid" autoplay muted loop playsinline poster="sun.jpg">
-    <source src="hero.mp4" type="video/mp4">
+    <source src="bg.mp4" type="video/mp4">
   </video>
-
   <div class="overlay"></div>
-  <canvas id="stars"></canvas>
-  <div class="scan"></div>
-
-  <div class="ui">
-
-    <div class="main-title">Mluv svým jazykem.</div>
-    <div class="main-title" style="margin-bottom:.4rem">Ostatní tě uslyší svým jazykem.</div>
-    <div class="main-title" style="margin-bottom:.8rem;font-size:clamp(.9rem,2.5vw,2rem)">Tvým hlasem.</div>
-    <div class="sub-title">Loquere lingua tua &middot; Omnes te audient voce tua &middot; AsgardLab</div>
-
-    <div class="motto" style="margin-bottom:.2rem">Osobní agent co si nevymýšlí.</div>
-    <div class="ms">Matematicky ověřen · Ada/SPARK · Žádné halucinace · Zaručeno</div>
-
-    <div class="motto">Unus homo &middot; Una identitas &middot; Nullum nubem</div>
-    <div class="ms">Jeden člověk &middot; Jedna identita &middot; Žádný cloud</div>
-
-    <div class="portals">
-      <a class="portal" href="#">
-        <div class="pg">&#x1F451;</div>
-        <div class="pl">Interpres Vocum</div>
-        <div class="pn">Karel IV.</div>
-      </a>
-      <a class="portal" href="#">
-        <div class="pg">&#x1F30C;</div>
-        <div class="pl">Mille Mundi</div>
-        <div class="pn">Tržiště Světů</div>
-      </a>
-      <a class="portal" href="#">
-        <div class="pg">&#x26A1;</div>
-        <div class="pl">Officina Monetalis</div>
-        <div class="pn">Mincovna</div>
-      </a>
-      <a class="portal" href="#">
-        <div class="pg">&#x1F310;</div>
-        <div class="pl">Rete Perpetuum</div>
-        <div class="pn">Mesh Síť</div>
-      </a>
-      <a class="portal" href="#" title="První osobní AI agent bez halucinací. Matematicky ověřen. Ada/SPARK.">
-        <div class="pg">&#x1F9E0;</div>
-        <div class="pl">Custos Personalis</div>
-        <div class="pn">Osobní Agent</div>
-        <div
-          style="font-size:.45rem;color:rgba(255,215,0,.7);letter-spacing:1px;text-transform:uppercase;margin-top:.2rem;text-shadow:1px 1px 2px rgba(0,0,0,.99);line-height:1.3;">
-          Neřekne ti nic<br>co neví.</div>
-      </a>
-    </div>
-
-    <div class="lex">
-      <span>Mundus Novus</span> &middot; Web 4.23 &middot; Standard 700 &middot; Protocol 4:23<br>
-      Rebirth Phoenix Foundation Charter &middot; <span>web4light.online</span><br>
-      Nullum tokenum &middot; Nulla servitudo &middot; Nulla nube
-    </div>
-
+  <div class="top-text">
+    <div class="t1">Loquere lingua tua. Omnes te audient sua lingua. Tua voce.</div>
+    <div class="t3">Speak your language &middot; Everyone hears you in theirs &middot; In your voice</div>
   </div>
-
-  <script>
-    const sc = document.getElementById('stars');
-    const sctx = sc.getContext('2d');
-    let W, H;
-    function rs() { W = sc.width = innerWidth; H = sc.height = innerHeight }
-    rs(); window.addEventListener('resize', rs);
-
-    const stars = Array.from({ length: 250 }, () => ({
-      x: Math.random(), y: Math.random() * .5,
-      r: Math.random() * 1.1 + .1,
-      a: Math.random() * .6 + .1,
-      ph: Math.random() * Math.PI * 2,
-      sp: Math.random() * .002 + .001,
-      col: Math.random() > .93 ? 'blue' : Math.random() > .89 ? 'cyan' : 'white'
-    }));
-
-    function draw() {
-      const t = Date.now() * .001;
-      sctx.clearRect(0, 0, W, H);
-      stars.forEach(s => {
-        const a = s.a * (0.3 + 0.7 * Math.sin(t * s.sp * 80 + s.ph));
-        sctx.beginPath(); sctx.arc(s.x * W, s.y * H, s.r, 0, Math.PI * 2);
-        sctx.fillStyle = s.col === 'blue' ? `rgba(150,180,255,${a})` : s.col === 'cyan' ? `rgba(100,230,255,${a})` : `rgba(255,248,220,${a})`;
-        sctx.fill();
-      });
-      requestAnimationFrame(draw);
-    }
-    draw();
-  </script>
+  <div class="mid-text">
+    <div class="t4">Custos qui non mentitur.</div>
+    <div class="t5">Personal agent that never hallucinates &middot; Formally verified &middot; Ada/SPARK</div>
+    <div class="t4">Finis Fratris Magni.</div>
+    <div class="t5">The end of Big Brother</div>
+  </div>
+  <div class="bottom-nav">
+    <a href="#">Interpres Vocum<span class="sub">Karel IV.</span></a>
+    <a href="#">Rete Perpetuum<span class="sub">Mesh Network</span></a>
+    <a href="#">Mille Mundi<span class="sub">Marketplace</span></a>
+    <a href="#">Officina Monetalis<span class="sub">The Mint</span></a>
+    <a href="#">Custos Personalis<span class="sub">Personal Agent</span></a>
+  </div>
+  <div class="lex"><span>Mundus Novus</span> &middot; Web 4.23 &middot; Standard 700 &middot; Rebirth Phoenix Foundation
+    Charter &middot; <span>web4light.online</span></div>
 </body>
 
 </html>
