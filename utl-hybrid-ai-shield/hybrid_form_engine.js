@@ -82,13 +82,19 @@ async function translateFieldValue(text, targetLang, route) {
     }
   }
 
-  if ("Translator" in globalThis) {
+  if ("Translator" in globalThis && targetLang !== "en") {
     try {
-      const translator = await globalThis.Translator.create({
-        sourceLanguage: "en",
-        targetLanguage: targetLang,
-      });
-      return await translator.translate(text);
+      const translatorPromise = (async () => {
+        const translator = await globalThis.Translator.create({
+          sourceLanguage: "en",
+          targetLanguage: targetLang,
+        });
+        return await translator.translate(text);
+      })();
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error("Translator timeout")), 1500)
+      );
+      return await Promise.race([translatorPromise, timeoutPromise]);
     } catch {
       // fallback below
     }
