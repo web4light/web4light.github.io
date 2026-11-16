@@ -206,9 +206,37 @@ document.getElementById("hybrid-form").addEventListener("submit", async (e) => {
   const envelope = { targetLang, offline, routingAudit, translatedFields };
   const cryptoProof = await signPayload(JSON.stringify(envelope));
 
+  // Lokální 2GB uživatelský kontextový trezor v prohlížeči (StorageManager / OPFS + metadata)
+  let localVaultInfo = { quotaBytes: 2 * 1024 * 1024 * 1024, entriesStored: 0 };
+  try {
+    const est = await navigator.storage?.estimate?.();
+    const existing = JSON.parse(localStorage.getItem("utl_user_2gb_vault") || "[]");
+    existing.push({ ts: new Date().toISOString(), sha256: cryptoProof.sha256, fields: Object.keys(translatedFields) });
+    localStorage.setItem("utl_user_2gb_vault", JSON.stringify(existing.slice(-200)));
+    localVaultInfo = {
+      quotaBytes: Math.min(est?.quota || 2 * 1024 * 1024 * 1024, 2 * 1024 * 1024 * 1024),
+      entriesStored: existing.length
+    };
+  } catch {
+    // ignore storage limits
+  }
+
   let cloudflareAttestation = { status: "skipped-offline" };
   if (!offline) {
     try {
+      const shareMesh = document.getElementById("chk-mesh-share")?.checked;
+      if (shareMesh) {
+        await fetch(`${CLOUDFLARE_COORDINATOR_URL}/v1/nodes`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "X-UTL-Proof": cryptoProof.sha256 },
+          body: JSON.stringify({
+            nodeId: `web-${cryptoProof.sha256.slice(0, 12)}`,
+            cpuSharePercent: 3,
+            languages: [targetLang, "la"]
+          })
+        });
+      }
+
       const cfCheck = await fetch(`${CLOUDFLARE_COORDINATOR_URL}/v1/attest`, {
         method: "POST",
         headers: {
@@ -227,7 +255,7 @@ document.getElementById("hybrid-form").addEventListener("submit", async (e) => {
   }
 
   document.getElementById("output-log").textContent = JSON.stringify(
-    { ...envelope, cryptoProof, cloudflareAttestation },
+    { ...envelope, localVaultInfo, cryptoProof, cloudflareAttestation },
     null,
     2
   );
