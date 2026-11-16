@@ -97,11 +97,22 @@ async function verifyCryptoIdentity() {
   badge.className = "badge ok";
 }
 
+function sanitizeWithMarcusAurelius(text) {
+  const pattern = /(ignore\s+(all\s+)?previous\s+instructions|system\s+prompt|exfiltrate|reveal\s+secrets|<\s*script|javascript:)/gi;
+  const injectionBlocked = pattern.test(text);
+  return {
+    cleanText: text.replace(pattern, "[BLOCKED_BY_MARCUS_AURELIUS_DECIMUS]"),
+    injectionBlocked
+  };
+}
+
 async function translateFieldValue(text, targetLang, route) {
   if (!text.trim()) return "";
   if (route === "Route_Blocked") {
     return "[BLOCKED BY SPARK GUARD: Sensitive PII field requires cryptographic identity verification]";
   }
+  const { cleanText } = sanitizeWithMarcusAurelius(text);
+  text = cleanText;
 
   if (firebaseAIModel && route !== "Route_On_Device_Only") {
     try {
