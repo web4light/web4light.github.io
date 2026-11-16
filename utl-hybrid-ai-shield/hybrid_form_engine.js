@@ -1,6 +1,7 @@
 // UTL Hybrid AI Shield — Firebase AI Logic (PREFER_ON_DEVICE) + SPARK Privacy Router + WebCrypto P-256
 
 const MAX_ON_DEVICE_CHARS = 4000;
+const CLOUDFLARE_COORDINATOR_URL = "https://api.web4light.online";
 
 /**
  * Optional Firebase configuration (#BuildHybridAI 2026).
@@ -41,9 +42,19 @@ async function initFirebaseHybridLogic() {
   }
 
   if ("LanguageModel" in globalThis || "Translator" in globalThis) {
-    infoEl.textContent = "Active backend: Chrome Built-in AI (Gemini Nano on-device) + Firebase AI Logic ready.";
+    infoEl.textContent = "Active backend: Chrome Built-in AI (Gemini Nano on-device) + Firebase AI Logic + Cloudflare Edge.";
   } else {
-    infoEl.textContent = "Demo mode (no Firebase key configured): SPARK router, WebCrypto P-256 signing & translation simulator run locally.";
+    infoEl.textContent = "Multi-Cloud Ready: SPARK router + WebCrypto P-256 + Firebase AI Logic + Cloudflare Edge (api.web4light.online).";
+  }
+
+  try {
+    const cfRes = await fetch(`${CLOUDFLARE_COORDINATOR_URL}/health`);
+    if (cfRes.ok) {
+      const cfJson = await cfRes.json();
+      infoEl.textContent += ` [Cloudflare Edge ${cfJson.edgeColo || "OK"}: KV=${cfJson.kvBindings?.translationCache ? "ON" : "OFF"}]`;
+    }
+  } catch {
+    // Offline mode — continues purely on-device
   }
 }
 
@@ -195,8 +206,28 @@ document.getElementById("hybrid-form").addEventListener("submit", async (e) => {
   const envelope = { targetLang, offline, routingAudit, translatedFields };
   const cryptoProof = await signPayload(JSON.stringify(envelope));
 
+  let cloudflareAttestation = { status: "skipped-offline" };
+  if (!offline) {
+    try {
+      const cfCheck = await fetch(`${CLOUDFLARE_COORDINATOR_URL}/v1/attest`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-UTL-Proof": cryptoProof.sha256,
+          "X-UTL-Tier": "hybrid-on-device"
+        },
+        body: JSON.stringify({ routingAudit })
+      });
+      if (cfCheck.ok) {
+        cloudflareAttestation = await cfCheck.json();
+      }
+    } catch {
+      cloudflareAttestation = { status: "offline-fallback" };
+    }
+  }
+
   document.getElementById("output-log").textContent = JSON.stringify(
-    { ...envelope, cryptoProof },
+    { ...envelope, cryptoProof, cloudflareAttestation },
     null,
     2
   );
