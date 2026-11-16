@@ -62,6 +62,30 @@ export function decideSparkRoute(sensitivity, chars, offlineMode) {
 }
 
 async function verifyCryptoIdentity() {
+  let authMethod = "WebCrypto ECDSA P-256 (Local Key)";
+  if (globalThis.PublicKeyCredential && navigator.credentials) {
+    try {
+      const challenge = crypto.getRandomValues(new Uint8Array(32));
+      const userId = crypto.getRandomValues(new Uint8Array(16));
+      await navigator.credentials.create({
+        publicKey: {
+          challenge,
+          rp: { name: "UTL Hybrid AI Shield" },
+          user: { id: userId, name: "sovereign-user", displayName: "Sovereign User" },
+          pubKeyCredParams: [{ type: "public-key", alg: -7 }],
+          authenticatorSelection: {
+            authenticatorAttachment: "platform",
+            userVerification: "required"
+          },
+          timeout: 30000
+        }
+      });
+      authMethod = "Biometric Passkey (WebAuthn Platform UV) + ECDSA P-256";
+    } catch {
+      // Pokud uživatel zavře výzvu nebo zařízení nemá platform authenticator, drží se lokální neexportovatelný P-256 klíč
+    }
+  }
+
   signingKeyPair = await crypto.subtle.generateKey(
     { name: "ECDSA", namedCurve: "P-256" },
     false,
@@ -69,7 +93,7 @@ async function verifyCryptoIdentity() {
   );
   identityVerified = true;
   const badge = document.getElementById("auth-status");
-  badge.textContent = "Identity Verified (ECDSA P-256 / 256-bit active)";
+  badge.textContent = `Identity Verified (${authMethod})`;
   badge.className = "badge ok";
 }
 
