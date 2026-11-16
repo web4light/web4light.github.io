@@ -3,9 +3,8 @@
 const MAX_ON_DEVICE_CHARS = 4000;
 
 /**
- * Volitelná konfigurace Firebase projektu (#BuildHybridAI 2026).
- * Pokud je vyplněná, engine automaticky inicializuje Firebase App, App Check,
- * Remote Config, Firestore a Firebase AI Logic (Hybrid Inference SDK).
+ * Optional Firebase configuration (#BuildHybridAI 2026).
+ * When provided, initializes Firebase App + Firebase AI Logic (Hybrid Inference SDK).
  */
 const FIREBASE_CONFIG = globalThis.UTL_FIREBASE_CONFIG || null;
 
@@ -27,21 +26,21 @@ async function initFirebaseHybridLogic() {
         model: "gemini-2.5-flash",
         mode: "prefer_on_device",
       });
-      infoEl.textContent = "Aktivní backend: Firebase AI Logic SDK (PREFER_ON_DEVICE -> Gemini Nano / Flash).";
+      infoEl.textContent = "Active backend: Firebase AI Logic SDK (PREFER_ON_DEVICE -> Gemini Nano / Flash).";
       return;
     } catch (err) {
-      infoEl.textContent = `Firebase SDK fallback (${err.message}). Používá se lokální Chrome Built-in AI / demo vrstva.`;
+      infoEl.textContent = `Firebase SDK fallback (${err.message}). Using local Chrome Built-in AI / demo layer.`;
     }
   }
 
   if ("LanguageModel" in globalThis || "Translator" in globalThis) {
-    infoEl.textContent = "Aktivní backend: Chrome Built-in AI (Gemini Nano on-device) + Firebase AI Logic ready.";
+    infoEl.textContent = "Active backend: Chrome Built-in AI (Gemini Nano on-device) + Firebase AI Logic ready.";
   } else {
-    infoEl.textContent = "Demo režim (bez Firebase klíče): SPARK směrovač, WebCrypto P-256 podpis a překladový simulátor běží lokálně.";
+    infoEl.textContent = "Demo mode (no Firebase key configured): SPARK router, WebCrypto P-256 signing & translation simulator run locally.";
   }
 }
 
-/** 1:1 logika podle formálně verifikovaného Ada/SPARK modulu Utl_Shield.Hybrid_Guard */
+/** 1:1 parity with formally verified Ada/SPARK module Utl_Shield.Hybrid_Guard */
 export function decideSparkRoute(sensitivity, chars, offlineMode) {
   if (sensitivity === "sensitive_pii" && !identityVerified) {
     return "Route_Blocked";
@@ -63,43 +62,39 @@ async function verifyCryptoIdentity() {
   );
   identityVerified = true;
   const badge = document.getElementById("auth-status");
-  badge.textContent = "Identita ověřena (ECDSA P-256 / 256-bit aktivní)";
+  badge.textContent = "Identity Verified (ECDSA P-256 / 256-bit active)";
   badge.className = "badge ok";
 }
 
 async function translateFieldValue(text, targetLang, route) {
   if (!text.trim()) return "";
   if (route === "Route_Blocked") {
-    return "[BLOKOVÁNO SPARK STRÁŽCEM: Citlivé PII pole vyžaduje kryptografické ověření totožnosti]";
+    return "[BLOCKED BY SPARK GUARD: Sensitive PII field requires cryptographic identity verification]";
   }
 
-  // 1. Pokud je dostupné Firebase AI Logic SDK a nejde o čistě offline/PII režim nebo SDK podporuje prefer_on_device
   if (firebaseAIModel && route !== "Route_On_Device_Only") {
     try {
-      const prompt = `Translate the following Czech form answer strictly to ${targetLang.toUpperCase()} without extra commentary:\n${text}`;
+      const prompt = `Translate the following form answer strictly to ${targetLang.toUpperCase()} without extra commentary:\n${text}`;
       const res = await firebaseAIModel.generateContent(prompt);
       return res.response.text();
     } catch {
-      // plynulý pád na lokální Chrome API / demo vrstvu
+      // graceful fallback
     }
   }
 
-  // 2. Chrome Built-in Translator / LanguageModel (pokud je v prohlížeči povolený)
   if ("Translator" in globalThis) {
     try {
       const translator = await globalThis.Translator.create({
-        sourceLanguage: "cs",
+        sourceLanguage: "en",
         targetLanguage: targetLang,
       });
       return await translator.translate(text);
     } catch {
-      // fallback níže
+      // fallback below
     }
   }
 
-  // 3. Deterministický offline demo překlad pro okamžité vyzkoušení
-  const prefix = targetLang === "de" ? "[DE-Übersetzung]" : "[EN-Translation]";
-  return `${prefix} (${route}): ${text}`;
+  return `[${targetLang.toUpperCase()}-Translated | ${route}]: ${text}`;
 }
 
 async function signPayload(payloadJson) {
@@ -126,7 +121,7 @@ async function signPayload(payloadJson) {
 document.getElementById("btn-auth").addEventListener("click", verifyCryptoIdentity);
 
 document.getElementById("btn-fill-long").addEventListener("click", () => {
-  const base = "Hybridní architektura UTL Shield kombinuje on-device Gemini Nano / Apple Foundation Models s cloudovým Gemini Flash. ";
+  const base = "UTL Hybrid AI Shield combines on-device Gemini Nano / Apple Foundation Models with cloud Gemini Flash fallback. ";
   document.getElementById("f-essay").value = base.repeat(40);
 });
 
@@ -145,7 +140,7 @@ document.getElementById("hybrid-form").addEventListener("submit", async (e) => {
     const sens = el.dataset.sensitivity;
     const route = decideSparkRoute(sens, val.length, offline);
     routingAudit[id] = { sensitivity: sens, chars: val.length, sparkRoute: route };
-    document.getElementById(`route-${id}`).textContent = `SPARK trasa: ${route}`;
+    document.getElementById(`route-${id}`).textContent = `SPARK route: ${route}`;
     translatedFields[id] = await translateFieldValue(val, targetLang, route);
   }
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="cs">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -91,68 +91,70 @@
         <div>
           <h1>UTL Hybrid AI Shield</h1>
           <p style="color: var(--muted); margin: 0;">
-            Multiplatformní překladač dotazníků a kryptografický strážce PII nad <strong>Firebase AI Logic</strong>, <strong>Ada/SPARK Platinum</strong> a <strong>Rust</strong>.
+            Cross-Platform Multilingual Form Translator &amp; Cryptographic PII Guard powered by <strong>Firebase AI Logic</strong>, <strong>Ada/SPARK Level 4</strong>, and <strong>Rust</strong>.
           </p>
         </div>
         <div>
           <span class="badge accent">Firebase AI Logic (PREFER_ON_DEVICE)</span>
-          <span class="badge ok">Ada/SPARK Level 4</span>
+          <span class="badge ok">Ada/SPARK Platinum (16/16)</span>
           <span class="badge accent">WebCrypto ECDSA P-256</span>
         </div>
       </div>
     </section>
 
     <section class="card">
-      <h2>1. Kryptografické ověření totožnosti &amp; režim</h2>
+      <h2>1. Cryptographic Identity Verification &amp; Routing Mode</h2>
       <div class="row">
-        <button id="btn-auth" type="button">Ověřit totožnost (WebCrypto ECDSA / Passkey)</button>
+        <button id="btn-auth" type="button">Verify Identity (WebCrypto ECDSA P-256)</button>
         <label style="display:flex; align-items:center; gap:0.4rem; margin:0; font-weight:500;">
           <input id="chk-offline" type="checkbox" style="width:auto;" />
-          Offline režim (pouze on-device)
+          Offline Mode (On-Device Only)
         </label>
         <select id="sel-target-lang" style="width:auto;">
-          <option value="en">Cílový jazyk formuláře: Angličtina (EN)</option>
-          <option value="de">Cílový jazyk formuláře: Němčina (DE)</option>
+          <option value="en">Target Form Language: English (EN)</option>
+          <option value="de">Target Form Language: German (DE)</option>
+          <option value="es">Target Form Language: Spanish (ES)</option>
+          <option value="cs">Target Form Language: Czech (CS)</option>
         </select>
-        <span id="auth-status" class="badge danger">Identita neověřena (PII pole blokována)</span>
+        <span id="auth-status" class="badge danger">Identity Unverified (PII fields blocked)</span>
       </div>
       <p id="ai-backend-info" style="color: var(--muted); font-size: 0.86rem; margin-bottom: 0;"></p>
     </section>
 
     <section class="grid">
       <form id="hybrid-form" class="card">
-        <h2>2. Cizojazyčný dotazník (odpovídej česky)</h2>
+        <h2>2. Multilingual Form (Answer in Any Language)</h2>
 
         <div style="margin-bottom: 1rem;">
-          <label for="f-name">Full Legal Name &amp; National ID / Passport (Citlivé PII)</label>
-          <div class="translated-q">Česky: Celé úřední jméno a číslo dokladu (vyžaduje kryptografické ověření + čistě lokální AI)</div>
-          <input id="f-name" data-sensitivity="sensitive_pii" placeholder="Např. Jakub Panocha, ID 123456789" />
+          <label for="f-name">Full Legal Name &amp; National ID / Passport (Sensitive PII)</label>
+          <div class="translated-q">Policy: Requires 256-bit cryptographic verification + strictly On-Device inference</div>
+          <input id="f-name" data-sensitivity="sensitive_pii" placeholder="e.g. Jakub Panocha, ID 123456789" />
           <small id="route-f-name" style="color: var(--muted);"></small>
         </div>
 
         <div style="margin-bottom: 1rem;">
-          <label for="f-role">Primary Developer Role &amp; Hardware Setup (Běžné pole)</label>
-          <div class="translated-q">Česky: Hlavní role vývojáře a hardwarová sestava</div>
-          <input id="f-role" data-sensitivity="contextual" placeholder="Např. Vyvíjím formálně ověřené agenty v Adě a Rustu na iPhonu A19 Pro." />
+          <label for="f-role">Primary Developer Role &amp; Hardware Setup (Contextual)</label>
+          <div class="translated-q">Policy: Hybrid Prefer Local (&le; 4,000 chars via Gemini Nano / Apple Foundation Models)</div>
+          <input id="f-role" data-sensitivity="contextual" placeholder="e.g. Building formally verified agents in Ada/SPARK &amp; Rust on iPhone A19 Pro." />
           <small id="route-f-role" style="color: var(--muted);"></small>
         </div>
 
         <div style="margin-bottom: 1rem;">
-          <label for="f-essay">Detailed Architecture Proposal (Dlouhý text &gt; 4000 znaků přepne na Cloud Fallback)</label>
-          <div class="translated-q">Česky: Podrobný popis architektury projektu</div>
-          <textarea id="f-essay" rows="4" data-sensitivity="public" placeholder="Napiš česky popis projektu, který se automaticky přeloží do jazyka formuláře..."></textarea>
+          <label for="f-essay">Detailed Architecture Proposal (&gt; 4,000 chars routes to Cloud Fallback)</label>
+          <div class="translated-q">Policy: Long technical text automatically upgrades to Cloud Gemini Flash</div>
+          <textarea id="f-essay" rows="4" data-sensitivity="public" placeholder="Write your project proposal in your native language..."></textarea>
           <small id="route-f-essay" style="color: var(--muted);"></small>
         </div>
 
         <div class="row">
-          <button id="btn-translate-submit" type="submit">Přeložit do jazyka formuláře &amp; podepsat</button>
-          <button id="btn-fill-long" class="secondary" type="button">Vyplnit dlouhý test (&gt;4000 znaků)</button>
+          <button id="btn-translate-submit" type="submit">Translate to Target Language &amp; Sign</button>
+          <button id="btn-fill-long" class="secondary" type="button">Fill Long Test (&gt;4,000 chars)</button>
         </div>
       </form>
 
       <section class="card">
-        <h2>3. Přeložený &amp; podepsaný výstup</h2>
-        <pre id="output-log">Zatím neodesláno. Ověř totožnost a klikni na „Přeložit do jazyka formuláře &amp; podepsat“.</pre>
+        <h2>3. Translated &amp; Cryptographically Signed Output</h2>
+        <pre id="output-log">Not submitted yet. Verify identity and click "Translate to Target Language &amp; Sign".</pre>
       </section>
     </section>
   </main>
