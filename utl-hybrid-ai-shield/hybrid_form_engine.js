@@ -6,7 +6,14 @@ const MAX_ON_DEVICE_CHARS = 4000;
  * Optional Firebase configuration (#BuildHybridAI 2026).
  * When provided, initializes Firebase App + Firebase AI Logic (Hybrid Inference SDK).
  */
-const FIREBASE_CONFIG = globalThis.UTL_FIREBASE_CONFIG || null;
+const FIREBASE_CONFIG = globalThis.UTL_FIREBASE_CONFIG || {
+  projectId: "utl-hybrid-ai-shield-26",
+  appId: "1:238775299331:web:f0587b7b83b886117c4d36",
+  storageBucket: "utl-hybrid-ai-shield-26.firebasestorage.app",
+  apiKey: "AIzaSyDStQ63zP1RnhqUSGyrwRICmhUUJS2vq3Q",
+  authDomain: "utl-hybrid-ai-shield-26.firebaseapp.com",
+  messagingSenderId: "238775299331"
+};
 
 let identityVerified = false;
 let signingKeyPair = null;
