@@ -1,0 +1,10 @@
+# WEB4LIGHT — AsgardLab (web4light.online)
+
+> Sovereign Web 4.23 Infrastructure · Ada/SPARK Level 4 · Rust · Latin Semantic Pivot
+
+## Public Showcase & Demos
+- [Main Showcase](https://web4light.online/): Public overview of Interpres Vocum, Fabrica SPARK, HusGraal, Panoramatix, and Custos Personalis.
+- [UTL Hybrid AI Shield](https://web4light.online/utl-hybrid-ai-shield/): Cross-platform multilingual form translator and cryptographic PII guard (#BuildHybridAI 2026).
+
+## Protected Infrastructure
+- API & Mesh Coordinator (`https://api.web4light.online`): Protected endpoints require cryptographic attestation (`X-UTL-Proof`) and biometric / SB-NFT verification. No cookies, E2E privacy-first.
