@@ -1,0 +1,18 @@
+{
+  "name": "WEB4LIGHT AsgardLab Public Concierge",
+  "description": "Public information gateway for Web 4.23, UTL Hybrid AI Shield, and Ada/SPARK formal verification. Protected user vaults remain strictly sealed.",
+  "url": "https://web4light.online/",
+  "version": "1.0.0",
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false
+  },
+  "skills": [
+    {
+      "id": "ask_web4_concierge",
+      "name": "Ask Web4 Public Concierge",
+      "description": "Answers public questions about Web 4.23 architecture, Latin pivot translation, and UTL Hybrid AI Shield without granting access to private vaults.",
+      "endpoint": "https://api.web4light.online/v1/concierge"
+    }
+  ]
+}
