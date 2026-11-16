@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UTL Hybrid AI Shield — #BuildHybridAI 2026</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0b1020;
+      --card: #131a2e;
+      --border: #253254;
+      --accent: #38bdf8;
+      --ok: #22c55e;
+      --warn: #f59e0b;
+      --danger: #ef4444;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding: 1.5rem;
+    }
+    .container { max-width: 1080px; margin: 0 auto; display: grid; gap: 1.25rem; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+    }
+    h1, h2, h3 { margin-top: 0; }
+    .badge {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      margin-right: 0.4rem;
+    }
+    .badge.ok { color: var(--ok); border-color: var(--ok); }
+    .badge.warn { color: var(--warn); border-color: var(--warn); }
+    .badge.danger { color: var(--danger); border-color: var(--danger); }
+    .badge.accent { color: var(--accent); border-color: var(--accent); }
+    .grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+    label { display: block; font-weight: 600; margin-bottom: 0.35rem; }
+    .translated-q { font-size: 0.88rem; color: var(--accent); margin-bottom: 0.4rem; }
+    input, textarea, select {
+      width: 100%;
+      background: #0b1121;
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.65rem 0.8rem;
+      font: inherit;
+    }
+    button {
+      background: var(--accent);
+      color: #06101f;
+      border: 0;
+      border-radius: 8px;
+      padding: 0.65rem 1rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    button.secondary {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+    pre {
+      background: #070b16;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.85rem;
+      overflow-x: auto;
+      font-size: 0.82rem;
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <section class="card">
+      <div class="row" style="justify-content: space-between;">
+        <div>
+          <h1>UTL Hybrid AI Shield</h1>
+          <p style="color: var(--muted); margin: 0;">
+            Multiplatformní překladač dotazníků a kryptografický strážce PII nad <strong>Firebase AI Logic</strong>, <strong>Ada/SPARK Platinum</strong> a <strong>Rust</strong>.
+          </p>
+        </div>
+        <div>
+          <span class="badge accent">Firebase AI Logic (PREFER_ON_DEVICE)</span>
+          <span class="badge ok">Ada/SPARK Level 4</span>
+          <span class="badge accent">WebCrypto ECDSA P-256</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>1. Kryptografické ověření totožnosti &amp; režim</h2>
+      <div class="row">
+        <button id="btn-auth" type="button">Ověřit totožnost (WebCrypto ECDSA / Passkey)</button>
+        <label style="display:flex; align-items:center; gap:0.4rem; margin:0; font-weight:500;">
+          <input id="chk-offline" type="checkbox" style="width:auto;" />
+          Offline režim (pouze on-device)
+        </label>
+        <select id="sel-target-lang" style="width:auto;">
+          <option value="en">Cílový jazyk formuláře: Angličtina (EN)</option>
+          <option value="de">Cílový jazyk formuláře: Němčina (DE)</option>
+        </select>
+        <span id="auth-status" class="badge danger">Identita neověřena (PII pole blokována)</span>
+      </div>
+      <p id="ai-backend-info" style="color: var(--muted); font-size: 0.86rem; margin-bottom: 0;"></p>
+    </section>
+
+    <section class="grid">
+      <form id="hybrid-form" class="card">
+        <h2>2. Cizojazyčný dotazník (odpovídej česky)</h2>
+
+        <div style="margin-bottom: 1rem;">
+          <label for="f-name">Full Legal Name &amp; National ID / Passport (Citlivé PII)</label>
+          <div class="translated-q">Česky: Celé úřední jméno a číslo dokladu (vyžaduje kryptografické ověření + čistě lokální AI)</div>
+          <input id="f-name" data-sensitivity="sensitive_pii" placeholder="Např. Jakub Panocha, ID 123456789" />
+          <small id="route-f-name" style="color: var(--muted);"></small>
+        </div>
+
+        <div style="margin-bottom: 1rem;">
+          <label for="f-role">Primary Developer Role &amp; Hardware Setup (Běžné pole)</label>
+          <div class="translated-q">Česky: Hlavní role vývojáře a hardwarová sestava</div>
+          <input id="f-role" data-sensitivity="contextual" placeholder="Např. Vyvíjím formálně ověřené agenty v Adě a Rustu na iPhonu A19 Pro." />
+          <small id="route-f-role" style="color: var(--muted);"></small>
+        </div>
+
+        <div style="margin-bottom: 1rem;">
+          <label for="f-essay">Detailed Architecture Proposal (Dlouhý text &gt; 4000 znaků přepne na Cloud Fallback)</label>
+          <div class="translated-q">Česky: Podrobný popis architektury projektu</div>
+          <textarea id="f-essay" rows="4" data-sensitivity="public" placeholder="Napiš česky popis projektu, který se automaticky přeloží do jazyka formuláře..."></textarea>
+          <small id="route-f-essay" style="color: var(--muted);"></small>
+        </div>
+
+        <div class="row">
+          <button id="btn-translate-submit" type="submit">Přeložit do jazyka formuláře &amp; podepsat</button>
+          <button id="btn-fill-long" class="secondary" type="button">Vyplnit dlouhý test (&gt;4000 znaků)</button>
+        </div>
+      </form>
+
+      <section class="card">
+        <h2>3. Přeložený &amp; podepsaný výstup</h2>
+        <pre id="output-log">Zatím neodesláno. Ověř totožnost a klikni na „Přeložit do jazyka formuláře &amp; podepsat“.</pre>
+      </section>
+    </section>
+  </main>
+
+  <script type="module" src="./hybrid_form_engine.js"></script>
+</body>
+</html>
